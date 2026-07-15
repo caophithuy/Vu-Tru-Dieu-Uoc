@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Universe of Wishes</title>
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="rotateScreen">
+      <div class="rotateContent">
+        <div class="phoneIcon">📱</div>
+
+        <h2>Vui lòng xoay điện thoại</h2>
+
+        <p>
+          Để có trải nghiệm đẹp nhất,<br />
+          hãy xoay điện thoại sang ngang. ✨
+        </p>
+      </div>
+    </div>
+    <div id="countdownScreen">
+      <div class="countdown-content">
+        <h1 class="countdown-title">🌌 VŨ TRỤ ĐIỀU ƯỚC 🌌</h1>
+
+        <p class="countdown-desc">
+          💌 Món quà này sẽ mở<br />
+          vào đúng ngày đặc biệt của em.
+        </p>
+
+        <div class="countdown-box">
+          <div class="time-card">
+            <span id="cdDays">00</span>
+            <small>Ngày</small>
+          </div>
+
+          <div class="time-card">
+            <span id="cdHours">00</span>
+            <small>Giờ</small>
+          </div>
+
+          <div class="time-card">
+            <span id="cdMinutes">00</span>
+            <small>Phút</small>
+          </div>
+
+          <div class="time-card">
+            <span id="cdSeconds">00</span>
+            <small>Giây</small>
+          </div>
+        </div>
+
+        <p class="countdown-tip">✨ Hãy quay lại khi đồng hồ về 00:00 ❤️</p>
+      </div>
+    </div>
+    <div class="intro">
+      <h1>Vũ Trụ Điều Ước</h1>
+
+      <p>
+        Nơi từng vì sao đều mang<br />
+        Một lời chúc dành cho em
+      </p>
+      <div class="for-you hidden">Dành tặng Bảo Uyên</div>
+
+      <button id="startBtn">🚪✨ Mở cánh cửa đến Vũ Trụ Điều Ước</button>
+    </div>
+    <div id="welcomeScreen">
+      <div id="stars"></div>
+      <h1>Chào mừng em đến với</h1>
+
+      <h2>Vũ Trụ Điều Ước ✨</h2>
+
+      <p>
+        Ở nơi này...
+        <br /><br />
+
+        Mỗi vì sao là một lời chúc.
+        <br />
+
+        Mỗi hành tinh là một kỷ niệm.
+        <br /><br />
+
+        Và toàn bộ vũ trụ này...
+
+        <br /><br />
+
+        Được tạo ra dành riêng cho Bảo Uyên ❤️
+      </p>
+    </div>
+    <div id="planet">
+      <div class="planet-core"></div>
+
+      <div class="ring ring1"></div>
+      <div class="ring ring2"></div>
+
+      <p class="planet-text">Chạm vào hành tinh để bắt đầu ✨</p>
+    </div>
+    <div id="travelScreen">
+      <p>✨ Đang mở cánh cửa không gian...</p>
+    </div>
+    <div id="whiteFlash"></div>
+    <canvas id="warpCanvas"></canvas>
+    <section id="solarSystemScreen">
+      <div id="introTitle" class="system-title intro-title">
+        <span>ĐIỂM ĐẾN ĐẶC BIỆT</span>
+        <h2>Hệ Hành Tinh Điều Ước</h2>
+        <p>Chạm vào mỗi hành tinh để khám phá một lời chúc ✨</p>
+      </div>
+
+      <button
+        class="central-planet"
+        data-title="Trái Tim Của Vũ Trụ"
+        data-wish="Chúc mừng sinh nhật Bảo Uyên. Chúc em luôn vui vẻ, bình an và gặp thật nhiều điều tốt đẹp trong tuổi mới. ❤️"
+        aria-label="Mở lời chúc chính"
+      ></button>
+
+      <div class="orbit orbit-1">
+        <button
+          class="mini-planet planet-joy"
+          data-title="Hành Tinh Niềm Vui"
+          data-wish="Chúc em mỗi ngày đều có thật nhiều lý do để mỉm cười. 😊"
+        ></button>
+      </div>
+
+      <div class="orbit orbit-2">
+        <button
+          class="mini-planet planet-peace"
+          data-title="Hành Tinh Bình An"
+          data-wish="Chúc em luôn bình an và nhẹ nhàng trước mọi điều trong cuộc sống. 🌙"
+        ></button>
+      </div>
+
+      <div class="orbit orbit-3">
+        <button
+          class="mini-planet planet-dream"
+          data-title="Hành Tinh Ước Mơ"
+          data-wish="Chúc những ước mơ của em sẽ từng bước trở thành sự thật. ✨"
+        ></button>
+      </div>
+
+      <div class="orbit orbit-4">
+        <button
+          class="mini-planet planet-luck"
+          data-title="Hành Tinh May Mắn"
+          data-wish="Chúc may mắn và những điều tốt đẹp luôn tìm đến bên em. 🌠"
+        ></button>
+      </div>
+
+      <div class="orbit orbit-5">
+        <button
+          class="mini-planet planet-happiness"
+          data-title="Hành Tinh Hạnh Phúc"
+          data-wish="Chúc tuổi mới của em luôn ngập tràn hạnh phúc và yêu thương. 💖"
+        ></button>
+      </div>
+    </section>
+
+    <div id="wishModal">
+      <div class="wish-card">
+        <button id="closeWishBtn" aria-label="Đóng">×</button>
+        <div id="photoSlideshow">
+          <img id="wishPhoto" src="images/bao-uyen-4.jpg" alt="Ảnh Bảo Uyên" />
+
+          <div class="photo-dots">
+            <span class="photo-dot active"></span>
+            <span class="photo-dot"></span>
+            <span class="photo-dot"></span>
+            <span class="photo-dot"></span>
+            <span class="photo-dot"></span>
+          </div>
+        </div>
+
+        <span class="wish-star">✨</span>
+
+        <h3 id="wishTitle"></h3>
+
+        <p id="wishText"></p>
+      </div>
+    </div>
+    <div id="spaceDust"></div>
+    <div id="shootingStar"></div>
+    <canvas id="heartCanvas"></canvas>
+
+    <div id="heartMessage">
+      <h1>Happy Birthday</h1>
+      <h2>Bảo Uyên</h2>
+
+      <p>Cảm ơn em đã đi hết Vũ Trụ Điều Ước...</p>
+      <p id="finalExtraText">
+        Mọi lời chúc trong vũ trụ này… đều dành riêng cho em. ❤️
+      </p>
+      <button id="replayUniverseBtn">✨ Xem lại Vũ Trụ Điều Ước ✨</button>
+    </div>
+    <audio id="bgMusic" loop preload="auto">
+      <source src="music/birthday2-piano.mp3.mp3" type="audio/mpeg" />
+    </audio>
+    <script src="script.js"></script>
+    <script src="planet.js"></script>
+    <script src="final.js"></script>
+    <script src="countdown.js"></script>
+  </body>
+</html>
