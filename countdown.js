@@ -25,6 +25,11 @@
      ========================================= */
 
   const countdownScreen = document.getElementById("countdownScreen");
+  const countdownContent = document.querySelector(".countdown-content");
+
+  const countdownDustCanvas = document.getElementById("countdownDustCanvas");
+
+  const unlockMessage = document.getElementById("unlockMessage");
 
   const daysElement = document.getElementById("cdDays");
 
@@ -88,7 +93,9 @@
      ========================================= */
 
   function unlockWebsite() {
-    if (alreadyUnlocked) return;
+    if (alreadyUnlocked) {
+      return;
+    }
 
     alreadyUnlocked = true;
 
@@ -102,29 +109,100 @@
     updateNumber(minutesElement, 0);
     updateNumber(secondsElement, 0);
 
-    if (countdownTip) {
-      countdownTip.textContent = "💌 Món quà đã sẵn sàng...";
+    countdownScreen.classList.remove("last-seconds");
+    countdownScreen.classList.add("countdown-ending");
 
-      countdownTip.style.opacity = "1";
-      countdownTip.style.color = "#ffd7f2";
-      countdownTip.style.textShadow = "0 0 18px rgba(255, 100, 220, 0.9)";
+    if (countdownTip) {
+      countdownTip.style.opacity = "0";
     }
 
-    countdownScreen.style.transition = "opacity 1.4s ease, filter 1.4s ease";
-
-    countdownScreen.style.filter = "brightness(1.😎 blur(2px)";
-
+    // Sau một nhịp, toàn bộ đồng hồ vỡ thành bụi sao
     setTimeout(() => {
-      countdownScreen.style.opacity = "0";
-      countdownScreen.style.filter = "brightness(2.5) blur(10px)";
-      countdownScreen.style.pointerEvents = "none";
-    }, 1500);
+      createCountdownDust();
+    }, 450);
 
+    // Hiện lời nhắn
     setTimeout(() => {
+      if (unlockMessage) {
+        unlockMessage.classList.add("show");
+      }
+    }, 1350);
+
+    // Lời nhắn mờ đi
+    setTimeout(() => {
+      if (unlockMessage) {
+        unlockMessage.classList.remove("show");
+      }
+    }, 3400);
+
+    // Màn đếm ngược biến mất
+    setTimeout(() => {
+      countdownScreen.classList.add("screen-leaving");
+    }, 3900);
+
+    // Hiện hoàn toàn trang Vũ Trụ Điều Ước phía sau
+    setTimeout(() => {
+      localStorage.setItem("giftOpened", "true");
+
       countdownScreen.style.display = "none";
-    }, 3000);
+    }, 5250);
   }
+  function createCountdownDust() {
+    if (!countdownContent) {
+      return;
+    }
 
+    const rect = countdownContent.getBoundingClientRect();
+
+    const particleCount = window.innerWidth < 700 ? 170 : 300;
+
+    for (let i = 0; i < particleCount; i++) {
+      const dust = document.createElement("span");
+
+      dust.classList.add("countdown-dust");
+
+      /*
+      Hạt được sinh ra trong vùng
+      chứa tiêu đề và đồng hồ
+    */
+      const startX = rect.left + Math.random() * rect.width;
+
+      const startY = rect.top + Math.random() * rect.height;
+
+      dust.style.left = "${startX}px";
+      dust.style.top = "${startY}px";
+
+      const angle = Math.random() * Math.PI * 2;
+
+      const distance = 100 + Math.random() * 320;
+
+      const moveX = Math.cos(angle) * distance;
+
+      const moveY = Math.sin(angle) * distance - 40 - Math.random() * 130;
+
+      dust.style.setProperty("--dust-x", "${moveX}px");
+
+      dust.style.setProperty("--dust-y", "${moveY}px");
+
+      dust.style.setProperty("--dust-size", "${1.5 + Math.random() * 4}px");
+
+      dust.style.setProperty(
+        "--dust-duration",
+        "${1.25 + Math.random() * 1.15}s",
+      );
+
+      dust.style.setProperty(
+        "--dust-rotate",
+        "${Math.random() * 540 - 270}deg",
+      );
+
+      document.body.appendChild(dust);
+
+      setTimeout(() => {
+        dust.remove();
+      }, 2600);
+    }
+  }
   /* =========================================
      CẬP NHẬT ĐỒNG HỒ
      ========================================= */
@@ -138,6 +216,11 @@
     }
 
     const totalSeconds = Math.floor(remainingTime / 1000);
+    if (totalSeconds <= 3) {
+      countdownScreen.classList.add("last-seconds");
+    } else {
+      countdownScreen.classList.remove("last-seconds");
+    }
 
     const days = Math.floor(totalSeconds / 86400);
 
@@ -154,21 +237,62 @@
   }
 
   /* =========================================
+   KHỞI ĐỘNG
+========================================= */
+  /* =========================================
      KHỞI ĐỘNG
-     ========================================= */
+  ========================================= */
 
+  // Muốn bỏ qua đồng hồ để kiểm tra trang web
   if (SKIP_COUNTDOWN) {
     countdownScreen.style.display = "none";
     return;
   }
 
+  const now = Date.now();
+  const giftOpened = localStorage.getItem("giftOpened") === "true";
+
+  // Chế độ test luôn chạy đồng hồ test
+  if (TEST_MODE) {
+    countdownScreen.style.display = "flex";
+    countdownScreen.style.opacity = "1";
+    countdownScreen.style.pointerEvents = "auto";
+
+    if (countdownTip) {
+      countdownTip.textContent =
+        "🧪 Chế độ kiểm tra: món quà sẽ mở sau 15 giây";
+    }
+
+    updateCountdown();
+
+    countdownInterval = setInterval(updateCountdown, 1000);
+
+    return;
+  }
+
+  // Chưa tới sinh nhật: luôn hiện đồng hồ thật
+  if (now < REAL_UNLOCK_TIME) {
+    countdownScreen.style.display = "flex";
+    countdownScreen.style.opacity = "1";
+    countdownScreen.style.pointerEvents = "auto";
+
+    updateCountdown();
+
+    countdownInterval = setInterval(updateCountdown, 1000);
+
+    return;
+  }
+
+  // Đã tới sinh nhật và đã mở quà trước đó
+  if (giftOpened) {
+    countdownScreen.style.display = "none";
+    return;
+  }
+
+  // Đã tới sinh nhật nhưng đây là lần mở đầu tiên
   countdownScreen.style.display = "flex";
   countdownScreen.style.opacity = "1";
   countdownScreen.style.pointerEvents = "auto";
-
-  if (countdownTip && TEST_MODE) {
-    countdownTip.textContent = "🧪 Chế độ kiểm tra: sẽ mở sau 15 giây";
-  }
 
   updateCountdown();
 
