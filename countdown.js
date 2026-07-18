@@ -7,7 +7,7 @@
 
   // true  = test: đếm 15 giây rồi tự mở website
   // false = thật: khóa đến 00:00 ngày 01/08/2026 giờ Việt Nam
-  const TEST_MODE = true;
+  const TEST_MODE = false;
 
   // Đổi thành true nếu muốn bỏ qua đồng hồ và vào web ngay
   const SKIP_COUNTDOWN = false;
